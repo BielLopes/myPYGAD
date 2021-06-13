@@ -1374,8 +1374,8 @@ class GA:
 
         return offspring
 
-    def arithmetic_crossover(selg, parents, offspring_size):
-         """
+    def arithmetic_crossover(self, parents, offspring_size):
+        """
         Applies the arithmetic crossover. For two random parentes, the not gene space list/range genes aply a aritmetic crossover
         It accepts 2 parameters:
             -parents: The parents to mate for producing the offspring.
@@ -1390,26 +1390,24 @@ class GA:
 
         for offspring_idx in range(offspring_size[0]):
             rand_prob = random.random()
-            selecteds_parents = random.sample(parents, 2)
+            selecteds_parents = random.sample(list(parents), 2)
             for gene_idx in range(offspring_size[1]):
                 if not (self.gene_space is None):
                     if self.gene_space_nested:
                         # Returning the current gene space from the 'gene_space' attribute.
                         if type(self.gene_space[gene_idx]) in [numpy.ndarray, list, range]:
                             if (rand_prob > 0.5):
-                                value_from_space = selecteds_parents[0, gene_idx]
+                                value_from_space = selecteds_parents[0][gene_idx]
                             else:
-                                value_from_space = selecteds_parents[1, gene_idx]
+                                value_from_space = selecteds_parents[1][gene_idx]
                         else:
-                            value_from_space = rand_prob*selecteds_parents[0, gene_idx] +
-                                (1 - rand_prob)*selecteds_parents[1, gene_idx]
+                            value_from_space = rand_prob*selecteds_parents[0][gene_idx] + (1 - rand_prob)*selecteds_parents[1][gene_idx]
+
                     else:
-                         value_from_space = rand_prob*selecteds_parents[0, gene_idx] +
-                                (1 - rand_prob)*selecteds_parents[1, gene_idx]
+                         value_from_space = rand_prob*selecteds_parents[0][gene_idx] + (1 - rand_prob)*selecteds_parents[1][gene_idx]
 
                 else:
-                    value_from_space = rand_prob*selecteds_parents[0, gene_idx] +
-                        (1 - rand_prob)*selecteds_parents[1, gene_idx]
+                    value_from_space = rand_prob*selecteds_parents[0][gene_idx] + (1 - rand_prob)*selecteds_parents[1][gene_idx]
 
                 if self.gene_type_single == True:
                         offspring[offspring_idx, gene_idx] = self.gene_type(value_from_space)
